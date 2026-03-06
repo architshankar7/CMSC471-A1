@@ -78,3 +78,10 @@ export async function loadChicagoData() {
 
   return { daily, sample };
 }
+
+export async function loadTypeCounts() {
+  const raw = await d3.csv("data/chicago_crimes_type_counts.csv");
+  return raw
+    .map((d) => ({ type: d["Primary Type"], count: +d["count"] }))
+    .filter((d) => d.type && Number.isFinite(d.count) && d.count > 0);
+}
