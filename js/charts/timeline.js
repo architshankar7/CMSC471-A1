@@ -1,6 +1,6 @@
 // js/charts/timeline.js
 export function createTimelineChart(containerSelector, { width = 900, height = 180 } = {}) {
-  const margin = { top: 10, right: 20, bottom: 30, left: 45 };
+  const margin = { top: 10, right: 20, bottom: 45, left: 60 };
   const innerW = width - margin.left - margin.right;
   const innerH = height - margin.top - margin.bottom;
 
@@ -20,6 +20,24 @@ export function createTimelineChart(containerSelector, { width = 900, height = 1
 
   const xAxisG = g.append("g").attr("transform", `translate(0,${innerH})`);
   const yAxisG = g.append("g");
+
+  // Axis labels
+  g.append("text")
+    .attr("class", "axis-label")
+    .attr("x", innerW / 2)
+    .attr("y", innerH + 40)
+    .attr("text-anchor", "middle")
+    .style("font-size", "12px")
+    .text("Date");
+
+  g.append("text")
+    .attr("class", "axis-label")
+    .attr("transform", "rotate(-90)")
+    .attr("x", -innerH / 2)
+    .attr("y", -50)
+    .attr("text-anchor", "middle")
+    .style("font-size", "12px")
+    .text("Daily Incidents");
 
   const barsG = g.append("g").attr("class", "bars");
   const brushG = g.append("g").attr("class", "brush");

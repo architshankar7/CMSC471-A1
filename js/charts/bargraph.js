@@ -1,6 +1,6 @@
 // js/charts/bargraph.js
 export function createBarChart(containerSelector, { width = 950, height = 660 } = {}) {
-  const margin = { top: 10, right: 60, bottom: 30, left: 220 };
+  const margin = { top: 10, right: 60, bottom: 50, left: 270 };
   const innerW = width - margin.left - margin.right;
   const innerH = height - margin.top - margin.bottom;
 
@@ -21,6 +21,17 @@ export function createBarChart(containerSelector, { width = 950, height = 660 } 
   const xAxisG = g.append("g").attr("transform", `translate(0,${innerH})`);
   const yAxisG = g.append("g");
   const barsG  = g.append("g").attr("class", "bars");
+  const hoverG = g.append("g").attr("class", "hover-targets");
+
+  // Axis labels
+  g.append("text")
+    .attr("class", "axis-label")
+    .attr("x", innerW / 2)
+    .attr("y", innerH + 44)
+    .attr("text-anchor", "middle")
+    .style("font-size", "12px")
+    .text("Number of Incidents");
+
 
   // Tooltip
   const tooltip = d3.select("body")
@@ -49,7 +60,8 @@ export function createBarChart(containerSelector, { width = 950, height = 660 } 
       .select(".domain").remove();
 
     yAxisG.selectAll(".tick text")
-      .style("font-size", "12px");
+      .style("font-size", "11px")
+      .attr("dx", "-4");
 
     // Bars
     barsG.selectAll("rect")
@@ -95,6 +107,36 @@ export function createBarChart(containerSelector, { width = 950, height = 660 } 
       })
       .on("mouseout", function () {
         d3.select(this).attr("fill", "#4a7fb5");
+        tooltip.style("opacity", 0);
+      });
+
+    // Invisible full-width overlay rects so small bars are hoverable across the whole row
+    hoverG.selectAll("rect")
+      .data(sorted, (d) => d.type)
+      .join("rect")
+      .attr("y", (d) => y(d.type))
+      .attr("x", 0)
+      .attr("width", innerW)
+      .attr("height", y.bandwidth())
+      .attr("fill", "transparent")
+      .on("mouseover", function (event, d) {
+        barsG.selectAll("rect").filter((b) => b.type === d.type).attr("fill", "#2a5f9a");
+        const pct = ((d.count / total) * 100).toFixed(1);
+        tooltip
+          .style("opacity", 1)
+          .html(
+            `<strong>${d.type}</strong><br>` +
+            `Count: <strong>${d3.format(",")(d.count)}</strong><br>` +
+            `Share: <strong>${pct}%</strong> of all crimes`
+          );
+      })
+      .on("mousemove", function (event) {
+        tooltip
+          .style("left", (event.pageX + 14) + "px")
+          .style("top",  (event.pageY - 36) + "px");
+      })
+      .on("mouseout", function (event, d) {
+        barsG.selectAll("rect").filter((b) => b.type === d.type).attr("fill", "#4a7fb5");
         tooltip.style("opacity", 0);
       });
   }
