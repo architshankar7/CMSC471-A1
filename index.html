@@ -16,7 +16,17 @@
   <main>
     <section id="viz">
       <h2>Visualization</h2>
-      <div id="chart"></div>
+
+      <div class="panel">
+        <h3>Timeline (Daily Incidents)</h3>
+        <div id="timeline"></div>
+        <div id="timeline-readout" class="subtle"></div>
+      </div>
+
+      <div class="panel">
+        <h3>Scatter + Bar</h3>
+        <div id="chart"></div>
+      </div>
     </section>
 
     <section id="writeup">
@@ -29,6 +39,6 @@
     </section>
   </main>
 
-  <script src="js/main.js"></script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
