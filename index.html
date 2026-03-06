@@ -31,11 +31,18 @@
 
     <section id="writeup">
       <h2>Write-up</h2>
-      <p>Dataset & question: </p>
-      <p>Design rationale & interactions: </p>
-      <p>References: </p>
-      <p>Process & time: </p>
-      <p>AI usage: </p>
+      <p><b>Dataset & question</b>: Data is extracted from the Chicago Police Department’s CLEAR (Citizen Law Enforcement Analysis and Reporting) system. We chose to look at the crime
+        statistics from 2024-2025. This was done to study trends for different crime categories. 
+      </p>
+      <p><b>Design rationale & interactions</b>: We implemented a timeline which has daily crime statistics. We chose the histogram for this visualization because it makes comparisions of crime volume over long periods of time. The users can select a time range and the below bar graph will update the categorical statistics.
+        This is done to help visualize what crimes are most common during different parts of the year. We chose a bar graph to help provide an immediate viewing of which crimes are most prevalent during a set range. We thought about using a pie graph instead, but since there are many different crime types, it would be very difficult for the user to read.
+        The bar graph allows for everything to be displayed clearly, even if it only represents a small proportion of the data.
+      </p>
+      <p><b>References</b>: https://data.cityofchicago.org/stories/s/Crimes-2001-to-present-Dashboard/5cd6-ry5g
+        We downloaded the data as a CSV and extracted a two year subset (2024-2025) with the following fields: Date, Primary Type, Description, and Location Description.
+      </p>
+      <p><b>Process & time</b>: We colaborated using GitHub for version control and used GitHub pages for deployment. Archit worked on creating the timeline and Arjun worked on creating the bar graph. Together, we linked the two visualizations together and worked on the UI for the page. Setting up the GitHub Repo and setting up the version control took an hour. Working on each visualization took us 3 hours each. Linking them together, polishing the site, and posting it on GitHub took a collective 4 hours. In total, 11 working hours were spent.</p>
+      <p><b>AI usage</b>: We used Claude Code to help link the filtering in the timeline to the display of the bar graph. We also used it for fixing bugs and to make the page look nicer.</p>
     </section>
   </main>
 

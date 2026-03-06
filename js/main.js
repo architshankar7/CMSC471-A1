@@ -29,10 +29,19 @@ function formatRange(range) {
   const timeline = createTimelineChart("#timeline", { width: 950, height: 200 });
   const barChart = createBarChart("#bargraph", { width: 950, height: 660 });
 
+  function getFilteredTypeCounts(range) {
+    if (!range) return typeCounts;
+    const [t0, t1] = range;
+    const filtered = sample.filter((d) => d.date >= t0 && d.date <= t1);
+    const counts = d3.rollup(filtered, (v) => v.length, (d) => d.primary_type);
+    return Array.from(counts, ([type, count]) => ({ type, count }))
+      .filter((d) => d.count > 0);
+  }
+
   function render() {
     timeline.render(daily, state, (range) => {
       document.querySelector("#timeline-readout").textContent = formatRange(range);
-      console.log("timeRange:", range);
+      barChart.render(getFilteredTypeCounts(range));
     });
 
     barChart.render(typeCounts);
